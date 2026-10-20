@@ -1,0 +1,11 @@
+{
+  "iteration": 1,
+  "provider": "kiro",
+  "agent_exit": 0,
+  "agent_seconds": 17.4,
+  "fault_injected": false,
+  "source_changed": true,
+  "qa_pass": true,
+  "qa_output": "ALL TESTS PASSED\n",
+  "timestamp": "2026-10-20T09:50:46.912501+00:00"
+}
