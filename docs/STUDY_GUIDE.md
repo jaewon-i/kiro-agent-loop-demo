@@ -26,6 +26,7 @@ Fair 발표 용어가 아니라 업계 글에서 쓰는 용어다. 정의는 출
 
 | 자료 | Inner Loop | Outer Loop | 데모와의 관계 |
 |---|---|---|---|
+| [Shawn Greyling — Loop engineering: from the inner loop to the outer loop](https://www.shawngreyling.com/blog/loop-engineering) (2026-06-14, 개인 블로그) | 에이전트 내부의 추론 → 행동 → 관찰 반복 (ReAct) | 한 단계 위에서 에이전트를 실행하고, 결과를 검사하고, 상태를 저장하고, 다음 사이클을 시작 | 데모와 거의 같다. 종료 조건 4요소(완료 상태 · 증거 · 제약 · 하드 예산), 매번 새 에이전트로 시작하는 Ralph loop, "상태는 에이전트 머리가 아니라 디스크에"도 데모 설계와 일치 |
 | [Philipp Schmid — Agents: Inner Loop vs Outer Loop](https://www.philschmid.de/inner-loop-vs-outer-loop) (2026-02-20, 4분) | 한 작업 안에서 에이전트가 코드 작성 → 테스트 → 수정을 반복한 뒤 응답 | 여러 턴·세션에 걸쳐 배운 것을 유지 (AGENTS.md, 핸드오프 문서, SKILL.md) | Inner는 정확히 일치. Outer는 "세션 간 상태 유지" 관점이라 데모와 일부만 겹친다 (실패 로그를 다음 세션에 넘기는 부분) |
 | [The AI Automators — The 4 Levels of Loop Engineering](https://www.theaiautomators.com/levels-of-loop-engineering/) (2026-07) | 에이전트 자신의 반복 (읽기 → 도구 → 테스트 → 판단) | 그 바깥에 두는 루프: 언제 다시 시작할지, 진행을 어떻게 평가할지, 어떤 피드백을 줄지, 언제 멈출지 결정 | 데모와 가장 가깝다. "핵심은 종료 조건", "테스트·린트 같은 결정적 검사를 기반으로" 등도 데모 설계와 같다 |
 
