@@ -1,0 +1,7 @@
+I'll read the current implementation and the test for reference.
+[tool] Reading DiscountCalculator.java:1, DiscountTest.java:1
+[tool] status: Completed
+I'll add validation for `rate` in [0, 100] and `price >= 0`, keeping the valid calculation unchanged.
+[tool] Editing DiscountCalculator.java
+[tool] status: Completed
+Added guards in `DiscountCalculator.discount` to throw `IllegalArgumentException` when rate is outside [0, 100] or price is negative, preserving valid calculations.

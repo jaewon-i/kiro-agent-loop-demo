@@ -1,0 +1,11 @@
+{
+  "iteration": 1,
+  "provider": "kiro",
+  "agent_exit": 0,
+  "agent_seconds": 16.5,
+  "fault_injected": true,
+  "source_changed": true,
+  "qa_pass": false,
+  "qa_output": "Exception in thread \"main\" java.lang.AssertionError: Expected IllegalArgumentException for price=-1 rate=10\n\tat DiscountTest.invalid(DiscountTest.java:8)\n\tat DiscountTest.main(DiscountTest.java:21)\n",
+  "timestamp": "2026-10-20T09:51:09.635755+00:00"
+}

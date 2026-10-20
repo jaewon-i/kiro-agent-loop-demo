@@ -1,0 +1,7 @@
+I'll read the current source and the test for reference.
+[tool] Reading DiscountCalculator.java:1, DiscountTest.java:1
+[tool] status: Completed
+The fix is to add price validation. I'll add a check for `price < 0`.
+[tool] Editing DiscountCalculator.java
+[tool] status: Completed
+Added `price < 0` validation to `DiscountCalculator.discount`, throwing `IllegalArgumentException` while preserving valid calculations.

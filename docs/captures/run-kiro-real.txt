@@ -1,0 +1,30 @@
+================================================================
+OUTER LOOP CONTROLLER  provider=kiro  max=5  timeout=300s  inject_fault=False
+================================================================
+WARNING: live agent edits local files. Use a disposable repo with no secrets.
+
+[QA GATE] initial: FAIL
+Exception in thread "main" java.lang.AssertionError: Expected IllegalArgumentException for price=1000 rate=-1
+	at DiscountTest.invalid(DiscountTest.java:8)
+	at DiscountTest.main(DiscountTest.java:18)
+
+[LOOP 1/5] starting NEW kiro session (no human input)
+    $ kiro-cli chat --no-interactive --trust-tools=fs_read,fs_write "<prompt + QA feedback>"
+    │ I'll read the current implementation and the test for reference.
+    │ [tool] Reading DiscountCalculator.java:1, DiscountTest.java:1
+    │ [tool] status: Completed
+    │ I'll add validation for `rate` in [0, 100] and `price >= 0`, keeping the valid calculation unchanged.
+    │ [tool] Editing DiscountCalculator.java
+    │ [tool] status: Completed
+    │ Added guards in `DiscountCalculator.discount` to throw `IllegalArgumentException` when rate is outside [0, 100] or price is negative, preserving valid calculations.
+[AGENT] session ended: exit=0 (17.4s). Agent claim is NOT trusted; verifying...
+[QA GATE] PASS
+ALL TESTS PASSED
+
+SUCCESS: QA Gate passed on iteration 1. Controller stops the loop.
+
+================================================================
+RESULT=PASS  iterations=1  exit=0
+  loop 1: agent_exit=0 qa=PASS
+Evidence: .loop/summary.json, iteration-NN.json, agent-NN.log, diff-NN.patch
+================================================================
