@@ -20,6 +20,15 @@
 - **Latent Space (Day 2)**: 둘째 날 대화를 지배한 단어가 loop. 메인 트랙 주제는 Software Factories.
 - **Latent Space (Debate)**: 찬성은 "피할 수 없다", "핵심은 검증 가능성". 신중론은 "과대광고가 규율을 앞지른다", "작게 시작하라". 에이전트 통제 계층은 아직 아무도 정립하지 못했다.
 
+## Inner Loop / Outer Loop 용어 출처 (6장)
+
+Fair 발표 용어가 아니라 업계 글에서 쓰는 용어다. 정의는 출처마다 조금씩 다르다.
+
+| 자료 | Inner Loop | Outer Loop | 데모와의 관계 |
+|---|---|---|---|
+| [Philipp Schmid — Agents: Inner Loop vs Outer Loop](https://www.philschmid.de/inner-loop-vs-outer-loop) (2026-02-20, 4분) | 한 작업 안에서 에이전트가 코드 작성 → 테스트 → 수정을 반복한 뒤 응답 | 여러 턴·세션에 걸쳐 배운 것을 유지 (AGENTS.md, 핸드오프 문서, SKILL.md) | Inner는 정확히 일치. Outer는 "세션 간 상태 유지" 관점이라 데모와 일부만 겹친다 (실패 로그를 다음 세션에 넘기는 부분) |
+| [The AI Automators — The 4 Levels of Loop Engineering](https://www.theaiautomators.com/levels-of-loop-engineering/) (2026-07) | 에이전트 자신의 반복 (읽기 → 도구 → 테스트 → 판단) | 그 바깥에 두는 루프: 언제 다시 시작할지, 진행을 어떻게 평가할지, 어떤 피드백을 줄지, 언제 멈출지 결정 | 데모와 가장 가깝다. "핵심은 종료 조건", "테스트·린트 같은 결정적 검사를 기반으로" 등도 데모 설계와 같다 |
+
 ## 주의
 
 - swyx 키노트 제목은 ai.engineer 페이지 기준 "The Highest Loop". Latent Space 기사는 "Loopcraft: The Art of Stacking Loops"라고 적었는데, Loopcraft는 그가 언급한 에세이 이름이다.
