@@ -171,8 +171,8 @@ def main():
         f'max_attempts/file={a.max_attempts}  timeout={a.timeout}s')
     log('set point: 0 files on legacy date API, behavior tests PASS')
     log('=' * 66)
-    ko('이 Outer Loop는 낡은 날짜 API를 쓰는 Java 파일을 loop 한 번에 하나씩 java.time으로 옮깁니다.')
-    ko('목표: 낡은 API를 쓰는 파일 0개 + 동작 테스트 28개 PASS. 사람은 중간에 아무것도 입력하지 않습니다.')
+    ko('이 Outer Loop는 옛 날짜 API를 쓰는 Java 파일을 loop 한 번에 하나씩 java.time으로 옮깁니다.')
+    ko('목표: 옛 날짜 API를 쓰는 파일 0개 + 동작 테스트 28개 PASS. 사람은 중간에 아무것도 입력하지 않습니다.')
     if a.provider == 'mock':
         log('NOTE: mock is a scripted rehearsal, not an AI run.')
         ko('주의: mock은 AI가 아니라 미리 써 둔 스크립트입니다 (배송일 파일 1회차에 일부러 실수함).')
@@ -183,7 +183,7 @@ def main():
     ok, out = gate()
     m = measure.measure()
     log(f'\n[SENSOR] legacy files {len(m["remaining"])}/{m["total"]} · tests {"PASS" if ok else "FAIL"}')
-    ko(f'시작 상태 측정: 낡은 API 파일 {len(m["remaining"])}/{m["total"]}개 남음, 동작 테스트 {"PASS (정상 출발)" if ok else "FAIL"}')
+    ko(f'시작 상태 측정: 옛 날짜 API 파일 {len(m["remaining"])}/{m["total"]}개 남음, 동작 테스트 {"PASS (정상 출발)" if ok else "FAIL"}')
     if not ok:
         log(out.rstrip())
         log('[STOP] baseline tests fail; fix the baseline before migrating.')
@@ -268,7 +268,7 @@ def main():
             remaining = len(measure.measure()['remaining'])
             trajectory.append(remaining)
             log(f'[GATE] tests PASS · sensor: {target} clean → ACCEPT   legacy files {trajectory[-2]} → {remaining}')
-            ko(f'판정: 테스트 28개 PASS + {target} 에 낡은 API 없음 → 반영. 남은 파일 {trajectory[-2]}개 → {remaining}개')
+            ko(f'판정: 테스트 28개 PASS + {target} 에 옛 날짜 API 없음 → 반영. 남은 파일 {trajectory[-2]}개 → {remaining}개')
             verdict = 'ACCEPT'
         else:
             (SRC / target).write_text(before)
@@ -281,7 +281,7 @@ def main():
             feedback[target] = reason
             reason_ko = ('대상 파일이 바뀌지 않음' if not patch else
                          '동작 테스트 실패 (동작이 바뀜)' if not ok else
-                         '파일에 낡은 API가 아직 남아 있음')
+                         '파일에 옛 날짜 API가 아직 남아 있음')
             first = reason.splitlines()[0]
             log(f'[GATE] {"tests FAIL" if not ok else "tests PASS"} · {first} → REVERT')
             for ln in reason.splitlines()[1:6]:
@@ -326,7 +326,7 @@ def main():
         log(f'left for a human: {", ".join(summary["left_for_human"])}')
     log('Evidence: .loop/summary.json, iteration-NN.json, agent-NN.log, diff-NN.patch')
     log('=' * 66)
-    ko({'DONE': f'결과: 완료. 낡은 API 파일 {trajectory[0]}개 → 0개, 동작 테스트 28개 모두 PASS.',
+    ko({'DONE': f'결과: 완료. 옛 날짜 API 파일 {trajectory[0]}개 → 0개, 동작 테스트 28개 모두 PASS.',
         'PARTIAL_NEEDS_HUMAN': f'결과: 일부 완료. 남은 파일 {", ".join(final)} 은(는) 사람이 확인해야 합니다.',
         'MAX_ITERATIONS': '결과: 최대 반복 횟수에 도달해 멈췄습니다 (목표 미달성).',
         'AGENT_ERROR': '결과: Kiro 세션 오류로 멈췄습니다.',
