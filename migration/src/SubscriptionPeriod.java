@@ -1,22 +1,20 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.TimeZone;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 /** Subscription end date = start + N months (clamped to month end, e.g. Jan 31 + 1 month = Feb 28). */
 public class SubscriptionPeriod {
     public static String endDate(String startDate, int months) {
         if (months <= 0) throw new IllegalArgumentException("months must be > 0");
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        format.setLenient(false);
-        format.setTimeZone(TimeZone.getTimeZone("UTC"));
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("uuuu-MM-dd")
+                .withResolverStyle(ResolverStyle.STRICT);
+        LocalDate date;
         try {
-            calendar.setTime(format.parse(startDate));
-        } catch (ParseException e) {
+            date = LocalDate.parse(startDate, format);
+        } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("invalid date: " + startDate);
         }
-        calendar.add(Calendar.MONTH, months);
-        return format.format(calendar.getTime());
+        return date.plusMonths(months).format(format);
     }
 }

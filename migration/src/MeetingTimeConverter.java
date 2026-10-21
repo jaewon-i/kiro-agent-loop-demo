@@ -1,20 +1,22 @@
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 /** Converts a meeting time "yyyy-MM-dd HH:mm" from one time zone to another (DST aware). */
 public class MeetingTimeConverter {
+    private static final DateTimeFormatter FORMAT =
+            DateTimeFormatter.ofPattern("uuuu-MM-dd HH:mm").withResolverStyle(ResolverStyle.STRICT);
+
     public static String convert(String dateTime, String fromZone, String toZone) {
-        SimpleDateFormat in = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        in.setLenient(false);
-        in.setTimeZone(TimeZone.getTimeZone(fromZone));
-        SimpleDateFormat out = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-        out.setTimeZone(TimeZone.getTimeZone(toZone));
         try {
-            Date instant = in.parse(dateTime);
-            return out.format(instant);
-        } catch (ParseException e) {
+            LocalDateTime local = LocalDateTime.parse(dateTime, FORMAT);
+            ZonedDateTime from = local.atZone(ZoneId.of(fromZone));
+            ZonedDateTime to = from.withZoneSameInstant(ZoneId.of(toZone));
+            return to.format(FORMAT);
+        } catch (DateTimeParseException e) {
             throw new IllegalArgumentException("invalid date-time: " + dateTime);
         }
     }

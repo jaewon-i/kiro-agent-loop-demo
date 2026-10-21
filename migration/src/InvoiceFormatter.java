@@ -1,12 +1,13 @@
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.TimeZone;
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 
 /** Invoice issue date, shown as the Seoul calendar date (e.g. 2026-10-21). */
 public class InvoiceFormatter {
+    private static final ZoneId SEOUL = ZoneId.of("Asia/Seoul");
+    private static final DateTimeFormatter FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
     public static String issueDate(long epochMillis) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        format.setTimeZone(TimeZone.getTimeZone("Asia/Seoul"));
-        return format.format(new Date(epochMillis));
+        return Instant.ofEpochMilli(epochMillis).atZone(SEOUL).format(FORMAT);
     }
 }
