@@ -36,6 +36,8 @@ python3 migrate_loop.py --provider mock --reset     # 리허설 (AI 아님, 약 
 python3 migrate_loop.py --provider kiro --reset     # 실제 Kiro (약 2~3분)
 ```
 
+각 상태 줄 아래에 `↳` 로 시작하는 한국어 해설이 붙는다(무엇을 했고 왜 반영/되돌렸는지). 영어 줄만 보려면 `--no-ko`. 실행 후 소스를 시작 상태로 되돌리려면 `git restore migration/src` (또는 다음 실행에서 `--reset`).
+
 Kiro 호출: `kiro-cli chat --no-interactive --trust-tools=fs_read,fs_write "<prompt>"`. 셸 등 다른 도구는 비대화형 모드에서 자동 거부된다.
 
 증거: `.loop/summary.json`(궤적 6 → … → 0 포함), `iteration-NN.json`, `agent-NN.log`, `diff-NN.patch`.

@@ -48,6 +48,15 @@ def log(msg=''):
     print(msg, flush=True)
 
 
+KO = True
+
+
+def ko(msg):
+    """Korean explanation line shown under each English status line (disable with --no-ko)."""
+    if KO:
+        print('  ↳ ' + msg, flush=True)
+
+
 def now():
     return datetime.datetime.now(datetime.timezone.utc).isoformat()
 
@@ -119,6 +128,7 @@ def invoke_agent(provider, target, attempt, feedback, timeout, log_path):
     fb = f'Previous attempt was REVERTED by the controller. Fix this:\n---\n{feedback}\n---' if feedback else ''
     prompt = PROMPT.format(target=target, feedback=fb)
     log('    $ kiro-cli chat --no-interactive --trust-tools=fs_read,fs_write "<migrate one file>"')
+    ko('Kiro 작업 중… 아래 │ 줄이 Kiro 출력입니다 (보통 20~30초)')
     return run_streaming([exe, 'chat', '--no-interactive', '--trust-tools=fs_read,fs_write', prompt],
                          WORK, timeout, log_path)
 
@@ -141,7 +151,10 @@ def main():
     ap.add_argument('--max-attempts', type=int, default=2, help='attempts per file before leaving it to a human')
     ap.add_argument('--timeout', type=int, default=300, help='seconds per agent session')
     ap.add_argument('--reset', action='store_true', help='restore legacy sources and clear .loop/')
+    ap.add_argument('--no-ko', action='store_true', help='hide the Korean explanation lines')
     a = ap.parse_args()
+    global KO
+    KO = not a.no_ko
     if not 1 <= a.max_iterations <= 30 or not 1 <= a.max_attempts <= 5 or a.timeout < 10:
         ap.error('limits: max-iterations 1..30, max-attempts 1..5, timeout >= 10')
 
@@ -158,17 +171,23 @@ def main():
         f'max_attempts/file={a.max_attempts}  timeout={a.timeout}s')
     log('set point: 0 files on legacy date API, behavior tests PASS')
     log('=' * 66)
+    ko('이 루프는 낡은 날짜 API를 쓰는 Java 파일을 한 바퀴에 하나씩 java.time으로 옮깁니다.')
+    ko('목표: 낡은 API를 쓰는 파일 0개 + 동작 테스트 28개 PASS. 사람은 중간에 아무것도 입력하지 않습니다.')
     if a.provider == 'mock':
         log('NOTE: mock is a scripted rehearsal, not an AI run.')
+        ko('주의: mock은 AI가 아니라 미리 써 둔 스크립트입니다 (배송일 파일 1회차에 일부러 실수함).')
     else:
         log('WARNING: live agent edits files. Use a disposable checkout with no secrets.')
+        ko('실제 Kiro가 파일을 수정합니다. 비밀정보가 없는 저장소에서만 실행하세요.')
 
     ok, out = gate()
     m = measure.measure()
     log(f'\n[SENSOR] legacy files {len(m["remaining"])}/{m["total"]} · tests {"PASS" if ok else "FAIL"}')
+    ko(f'시작 상태 측정: 낡은 API 파일 {len(m["remaining"])}/{m["total"]}개 남음, 동작 테스트 {"PASS (정상 출발)" if ok else "FAIL"}')
     if not ok:
         log(out.rstrip())
         log('[STOP] baseline tests fail; fix the baseline before migrating.')
+        ko('시작 코드부터 테스트가 실패해서 마이그레이션을 시작하지 않습니다.')
         return 2
 
     trajectory = [len(m['remaining'])]
@@ -186,6 +205,8 @@ def main():
         n = attempts[target]
         log(f'\n[LOOP {i}/{a.max_iterations}] target={target} (attempt {n}/{a.max_attempts}) '
             f'— NEW {a.provider} session, no human input')
+        ko(f'{i}번째 바퀴: 컨트롤러가 {target} 을(를) 골라 새 세션에 "이 파일 하나만 옮겨라"라고 지시합니다'
+           + (f' ({n}번째 시도, 직전 실패 내용 포함)' if n > 1 else ''))
 
         protected_before = {p: p.read_bytes() for p in PROTECTED}
         fresh_workspace()
@@ -200,6 +221,7 @@ def main():
             for p, b in protected_before.items():
                 p.write_bytes(b)
             log(f'[GUARDRAIL] protected files modified {tampered}; restored. STOP.')
+            ko(f'에이전트가 테스트/센서/컨트롤러 파일 {tampered} 을(를) 건드렸습니다. 원래대로 복원하고 즉시 멈춥니다.')
             result, code = 'GUARDRAIL_STOP', 3
             summary['iterations'].append({'iteration': i, 'target': target, 'tampered': tampered})
             break
@@ -214,6 +236,7 @@ def main():
                 p.write_bytes(b)
             log(f'[GUARDRAIL] agent edited the real src/ outside its workspace {outside}; reverted '
                 '(only the controller may merge changes).')
+            ko(f'에이전트가 작업 폴더 밖의 진짜 src/ {outside} 을(를) 고쳤습니다. 되돌립니다 (반영은 컨트롤러만 할 수 있음).')
 
         changed = sorted(p.name for p in (WORK / 'src').glob('*.java')
                          if not (SRC / p.name).exists() or p.read_bytes() != (SRC / p.name).read_bytes())
@@ -222,8 +245,13 @@ def main():
         log(f'[AGENT] exit={rc} ({secs}s) · changed: {", ".join(changed) or "nothing"}'
             + (f' · ignored (not target): {", ".join(others)}' if others else '')
             + '. Agent claim is NOT trusted; measuring...')
+        who = 'Kiro' if a.provider == 'kiro' else 'mock(스크립트)'
+        ko(f'{who} 세션 종료 ({secs}초). 에이전트가 "다 했다"고 해도 믿지 않고, 컨트롤러가 직접 테스트하고 잽니다.')
+        if others:
+            ko(f'대상이 아닌 파일 {", ".join(others)} 의 수정은 반영하지 않고 무시합니다.')
         if rc != 0:
             log('[STOP] agent session failed (tool/auth/timeout). Not retrying.')
+            ko(f'{who} 세션이 오류/인증 문제/시간 초과로 실패했습니다. 재시도하지 않고 멈춥니다.')
             result, code = 'AGENT_ERROR', 2
             summary['iterations'].append({'iteration': i, 'target': target, 'agent_exit': rc})
             break
@@ -240,6 +268,7 @@ def main():
             remaining = len(measure.measure()['remaining'])
             trajectory.append(remaining)
             log(f'[GATE] tests PASS · sensor: {target} clean → ACCEPT   legacy files {trajectory[-2]} → {remaining}')
+            ko(f'판정: 테스트 28개 PASS + {target} 에 낡은 API 없음 → 반영. 남은 파일 {trajectory[-2]}개 → {remaining}개')
             verdict = 'ACCEPT'
         else:
             (SRC / target).write_text(before)
@@ -250,6 +279,9 @@ def main():
             else:
                 reason = 'sensor still detects legacy API in the file: ' + ', '.join(left_in_target)
             feedback[target] = reason
+            reason_ko = ('대상 파일이 바뀌지 않음' if not patch else
+                         '동작 테스트 실패 (동작이 바뀜)' if not ok else
+                         '파일에 낡은 API가 아직 남아 있음')
             first = reason.splitlines()[0]
             log(f'[GATE] {"tests FAIL" if not ok else "tests PASS"} · {first} → REVERT')
             for ln in reason.splitlines()[1:6]:
@@ -257,9 +289,11 @@ def main():
             if n >= a.max_attempts:
                 summary['left_for_human'].append(target)
                 log(f'[LOOP] {target}: {n} failed attempts → left for a human, moving on')
+                ko(f'판정: {reason_ko} → 되돌림. {n}번 실패해서 억지로 밀어붙이지 않고 사람에게 넘기고 다음 파일로 갑니다.')
                 verdict = 'LEFT_FOR_HUMAN'
             else:
                 log('[LOOP] retry the same file in a NEW session with the failure output')
+                ko(f'판정: {reason_ko} → 되돌림. 실패 내용을 들고 같은 파일을 새 세션으로 다시 시킵니다.')
                 verdict = 'REVERT_RETRY'
 
         rec = {'iteration': i, 'target': target, 'attempt': n, 'agent_exit': rc, 'agent_seconds': secs,
@@ -292,6 +326,12 @@ def main():
         log(f'left for a human: {", ".join(summary["left_for_human"])}')
     log('Evidence: .loop/summary.json, iteration-NN.json, agent-NN.log, diff-NN.patch')
     log('=' * 66)
+    ko({'DONE': f'결과: 완료. 낡은 API 파일 {trajectory[0]}개 → 0개, 동작 테스트 28개 모두 PASS.',
+        'PARTIAL_NEEDS_HUMAN': f'결과: 일부 완료. 남은 파일 {", ".join(final)} 은(는) 사람이 확인해야 합니다.',
+        'MAX_ITERATIONS': '결과: 최대 반복 횟수에 도달해 멈췄습니다 (목표 미달성).',
+        'AGENT_ERROR': '결과: Kiro 세션 오류로 멈췄습니다.',
+        'GUARDRAIL_STOP': '결과: 보호 파일 변조를 감지해 멈췄습니다.'}[result])
+    ko(f'세션 {summary["agent_sessions"]}개 사용. 바퀴별 기록과 코드 변경(diff)은 .loop/ 폴더에 있습니다.')
     return code
 
 
