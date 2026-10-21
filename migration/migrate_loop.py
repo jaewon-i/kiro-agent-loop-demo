@@ -205,7 +205,7 @@ def main():
         n = attempts[target]
         log(f'\n[LOOP {i}/{a.max_iterations}] target={target} (attempt {n}/{a.max_attempts}) '
             f'— NEW {a.provider} session, no human input')
-        ko(f'Loop {i}: 컨트롤러가 {target} 을(를) 골라 새 세션에 "이 파일 하나만 옮겨라"라고 지시합니다'
+        ko(f'Loop {i}: 컨트롤러가 {target} 을(를) 골라 새 세션에 "이 파일의 날짜 코드만 java.time으로 바꿔라"라고 지시합니다'
            + (f' ({n}번째 시도, 직전 실패 내용 포함)' if n > 1 else ''))
 
         protected_before = {p: p.read_bytes() for p in PROTECTED}
