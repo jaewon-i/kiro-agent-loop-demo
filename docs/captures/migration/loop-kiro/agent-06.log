@@ -1,0 +1,15 @@
+Let me read the files first.
+[tool] Reading SubscriptionPeriod.java:1, BehaviorTest.java:1
+[tool] status: Completed
+The key behaviors for SubscriptionPeriod:
+- `Calendar.add(MONTH, n)` clamps to month end (Jan 31 + 1 = Feb 28). `LocalDate.plusMonths` does exactly this.
+- Strict parsing: "2026-02-30" must throw IllegalArgumentException. `LocalDate.parse` with ISO strict format throws `DateTimeParseException` → need to wrap and rethrow as IAE.
+- months <= 0 throws IAE.
+
+`LocalDate.parse(startDate)` uses strict ISO_LOCAL_DATE and rejects invalid dates. No timezone needed since it's pure date arithmetic.
+[tool] Creating SubscriptionPeriod.java
+[tool] status: Completed
+One note on strict ISO parsing: `ResolverStyle.STRICT` with pattern `yyyy-MM-dd` requires a year-of-era and would need an era field. To avoid that pitfall, I should use `uuuu` instead of `yyyy`, which represents the proleptic year and works with STRICT.
+[tool] Editing SubscriptionPeriod.java
+[tool] status: Completed
+Migrated src/SubscriptionPeriod.java to java.time (LocalDate + strict uuuu-MM-dd DateTimeFormatter), preserving month-end clamping, strict date validation, and all IllegalArgumentException cases with no legacy date API remaining.

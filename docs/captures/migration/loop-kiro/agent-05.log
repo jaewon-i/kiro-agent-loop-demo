@@ -1,0 +1,10 @@
+I'll read both files first.
+[tool] Reading ShippingSchedule.java:1, BehaviorTest.java:1
+[tool] status: Completed
+The relevant tests for ShippingSchedule: strict parsing (Feb 30 rejected), negative days throw IAE, business day counting skipping weekends, UTC-based. Using `LocalDate` with strict `DateTimeFormatter` handles all cases. `LocalDate` parsing with `yyyy-MM-dd` and `ResolverStyle.STRICT` rejects Feb 30. No timezone needed since LocalDate is zone-independent.
+[tool] Creating ShippingSchedule.java
+[tool] status: Completed
+Note on strict parsing: `ResolverStyle.STRICT` with pattern `yyyy-MM-dd` requires era-based year (`uuuu`), not `yyyy`. With STRICT + `yyyy`, parsing valid dates throws because year-of-era needs an era field. I need to use `uuuu` to keep valid dates working while still rejecting Feb 30.
+[tool] Editing ShippingSchedule.java
+[tool] status: Completed
+Migrated src/ShippingSchedule.java to java.time (LocalDate + strict `uuuu-MM-dd` DateTimeFormatter), preserving the class/method signature, UTC-independent calendar-date behavior, weekend skipping, strict parsing (Feb 30 rejected), and both IllegalArgumentException cases, with no legacy date API remaining.
