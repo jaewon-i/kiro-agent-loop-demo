@@ -14,7 +14,7 @@ Kyle Mistele "Loop Engineering from First Principles"(AIEWF 2026)의 제어 루�
 | 실행기 | Kiro CLI — 그 파일 하나만 옮긴다 |
 | 시스템 | `src/*.java` |
 
-## 한 바퀴의 규칙
+## loop 1회의 규칙
 
 1. 센서가 남은 파일을 센다. 0개이고 테스트 PASS면 종료.
 2. 남은 파일 중 하나를 골라, **저장소 밖 임시 작업 폴더**(src + tests 복사본)에서 새 Kiro 세션을 실행한다.

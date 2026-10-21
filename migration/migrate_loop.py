@@ -171,7 +171,7 @@ def main():
         f'max_attempts/file={a.max_attempts}  timeout={a.timeout}s')
     log('set point: 0 files on legacy date API, behavior tests PASS')
     log('=' * 66)
-    ko('이 루프는 낡은 날짜 API를 쓰는 Java 파일을 한 바퀴에 하나씩 java.time으로 옮깁니다.')
+    ko('이 Outer Loop는 낡은 날짜 API를 쓰는 Java 파일을 loop 한 번에 하나씩 java.time으로 옮깁니다.')
     ko('목표: 낡은 API를 쓰는 파일 0개 + 동작 테스트 28개 PASS. 사람은 중간에 아무것도 입력하지 않습니다.')
     if a.provider == 'mock':
         log('NOTE: mock is a scripted rehearsal, not an AI run.')
@@ -205,7 +205,7 @@ def main():
         n = attempts[target]
         log(f'\n[LOOP {i}/{a.max_iterations}] target={target} (attempt {n}/{a.max_attempts}) '
             f'— NEW {a.provider} session, no human input')
-        ko(f'{i}번째 바퀴: 컨트롤러가 {target} 을(를) 골라 새 세션에 "이 파일 하나만 옮겨라"라고 지시합니다'
+        ko(f'Loop {i}: 컨트롤러가 {target} 을(를) 골라 새 세션에 "이 파일 하나만 옮겨라"라고 지시합니다'
            + (f' ({n}번째 시도, 직전 실패 내용 포함)' if n > 1 else ''))
 
         protected_before = {p: p.read_bytes() for p in PROTECTED}
@@ -331,7 +331,7 @@ def main():
         'MAX_ITERATIONS': '결과: 최대 반복 횟수에 도달해 멈췄습니다 (목표 미달성).',
         'AGENT_ERROR': '결과: Kiro 세션 오류로 멈췄습니다.',
         'GUARDRAIL_STOP': '결과: 보호 파일 변조를 감지해 멈췄습니다.'}[result])
-    ko(f'세션 {summary["agent_sessions"]}개 사용. 바퀴별 기록과 코드 변경(diff)은 .loop/ 폴더에 있습니다.')
+    ko(f'세션 {summary["agent_sessions"]}개 사용. loop별 기록과 코드 변경(diff)은 .loop/ 폴더에 있습니다.')
     return code
 
 
