@@ -17,6 +17,8 @@ python3 loop.py --provider mock --reset     # deterministic two-iteration rehear
 python3 loop.py --provider kiro --reset --max-iterations 5
 python3 loop.py --provider kiro --reset --max-iterations 5 --inject-fault   # explicit demo mode
 ```
+Each English status line is followed by a Korean explanation line (`↳ …`) saying what happened and why; add `--no-ko` to hide them (e.g. for screenshots matching the slides).
+
 Kiro is invoked as `kiro-cli chat --no-interactive --trust-tools=fs_read,fs_write "<prompt>"` (verified with kiro-cli 2.32.0 on macOS). Shell and other tools are denied automatically in non-interactive mode.
 
 `--inject-fault` is a labeled demo mode: after loop 1 the **controller** deliberately removes the price check, so the QA Gate fails and a new Kiro session is started automatically. The failure is not the AI's; say so in the presentation.

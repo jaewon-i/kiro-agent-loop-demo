@@ -1,0 +1,7 @@
+I'll read both files first.
+[tool] Reading InvoiceFormatter.java:1, BehaviorTest.java:1
+[tool] status: Completed
+The behavior for `issueDate`: convert epoch millis to the Seoul calendar date, formatted as `yyyy-MM-dd`. I'll migrate to `java.time` using `Instant`, `ZoneId`, and `DateTimeFormatter` (or simply `LocalDate`).
+[tool] Creating InvoiceFormatter.java
+[tool] status: Completed
+Migrated src/InvoiceFormatter.java to java.time (Instant/ZoneId/LocalDate/DateTimeFormatter), preserving the Asia/Seoul `yyyy-MM-dd` output and method signature with no legacy date API remaining.

@@ -1,0 +1,7 @@
+I'll read both files first.
+[tool] Reading LogTimestamp.java:1, BehaviorTest.java:1
+[tool] status: Completed
+The relevant checks for LogTimestamp confirm: Seoul offset, second precision with millis dropped (truncated). I'll migrate to `java.time`.
+[tool] Creating LogTimestamp.java
+[tool] status: Completed
+Migrated src/LogTimestamp.java to java.time (Instant/ZonedDateTime/DateTimeFormatter, millis truncated to seconds), preserving the exact Seoul offset output and dropping all legacy date APIs.

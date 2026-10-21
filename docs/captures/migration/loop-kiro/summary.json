@@ -1,0 +1,117 @@
+{
+  "provider": "kiro",
+  "started": "2026-10-21T01:46:12.185593+00:00",
+  "iterations": [
+    {
+      "iteration": 1,
+      "target": "AgeCalculator.java",
+      "attempt": 1,
+      "agent_exit": 0,
+      "agent_seconds": 28.1,
+      "changed_files": [
+        "AgeCalculator.java"
+      ],
+      "ignored_files": [],
+      "gate_pass": true,
+      "legacy_left_in_target": [],
+      "verdict": "ACCEPT",
+      "gate_output": "ALL 28 BEHAVIOR CHECKS PASSED\n",
+      "timestamp": "2026-10-21T01:46:40.941848+00:00"
+    },
+    {
+      "iteration": 2,
+      "target": "InvoiceFormatter.java",
+      "attempt": 1,
+      "agent_exit": 0,
+      "agent_seconds": 19.1,
+      "changed_files": [
+        "InvoiceFormatter.java"
+      ],
+      "ignored_files": [],
+      "gate_pass": true,
+      "legacy_left_in_target": [],
+      "verdict": "ACCEPT",
+      "gate_output": "ALL 28 BEHAVIOR CHECKS PASSED\n",
+      "timestamp": "2026-10-21T01:47:00.714968+00:00"
+    },
+    {
+      "iteration": 3,
+      "target": "LogTimestamp.java",
+      "attempt": 1,
+      "agent_exit": 0,
+      "agent_seconds": 18.3,
+      "changed_files": [
+        "LogTimestamp.java"
+      ],
+      "ignored_files": [],
+      "gate_pass": true,
+      "legacy_left_in_target": [],
+      "verdict": "ACCEPT",
+      "gate_output": "ALL 28 BEHAVIOR CHECKS PASSED\n",
+      "timestamp": "2026-10-21T01:47:19.643909+00:00"
+    },
+    {
+      "iteration": 4,
+      "target": "MeetingTimeConverter.java",
+      "attempt": 1,
+      "agent_exit": 0,
+      "agent_seconds": 23.4,
+      "changed_files": [
+        "MeetingTimeConverter.java"
+      ],
+      "ignored_files": [],
+      "gate_pass": true,
+      "legacy_left_in_target": [],
+      "verdict": "ACCEPT",
+      "gate_output": "ALL 28 BEHAVIOR CHECKS PASSED\n",
+      "timestamp": "2026-10-21T01:47:43.783634+00:00"
+    },
+    {
+      "iteration": 5,
+      "target": "ShippingSchedule.java",
+      "attempt": 1,
+      "agent_exit": 0,
+      "agent_seconds": 26.5,
+      "changed_files": [
+        "ShippingSchedule.java"
+      ],
+      "ignored_files": [],
+      "gate_pass": true,
+      "legacy_left_in_target": [],
+      "verdict": "ACCEPT",
+      "gate_output": "ALL 28 BEHAVIOR CHECKS PASSED\n",
+      "timestamp": "2026-10-21T01:48:11.065931+00:00"
+    },
+    {
+      "iteration": 6,
+      "target": "SubscriptionPeriod.java",
+      "attempt": 1,
+      "agent_exit": 0,
+      "agent_seconds": 25.7,
+      "changed_files": [
+        "SubscriptionPeriod.java"
+      ],
+      "ignored_files": [],
+      "gate_pass": true,
+      "legacy_left_in_target": [],
+      "verdict": "ACCEPT",
+      "gate_output": "ALL 28 BEHAVIOR CHECKS PASSED\n",
+      "timestamp": "2026-10-21T01:48:37.331805+00:00"
+    }
+  ],
+  "trajectory": [
+    6,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0
+  ],
+  "left_for_human": [],
+  "result": "DONE",
+  "finished": "2026-10-21T01:48:37.896212+00:00",
+  "final_remaining": [],
+  "final_tests_pass": true,
+  "agent_sessions": 6
+}
