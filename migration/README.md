@@ -2,7 +2,7 @@
 
 Kyle Mistele "Loop Engineering from First Principles"(AIEWF 2026)의 제어 루프 구조를 그대로 옮긴 데모다. 버그 하나를 고치는 main 데모와 달리, **한 번에 끝낼 수 없는 일**(파일 6개 마이그레이션)을 루프가 오차를 재며 하나씩 줄여 간다.
 
-과제: `src/`의 Java 클래스 6개가 쓰는 옛 날짜 API(`java.util.Date`, `Calendar`, `TimeZone`, `SimpleDateFormat`)를 `java.time`으로 옮긴다. 동작(출력 문자열, 시간대, 정밀도, 예외)은 하나도 바뀌면 안 된다.
+과제: `src/`의 Java 클래스 6개가 쓰는 옛 날짜 API(`java.util.Date`, `Calendar`, `TimeZone`, `SimpleDateFormat`)를 `java.time`으로 바꾼다(파일 위치는 그대로, 코드만 교체). 동작(출력 문자열, 시간대, 정밀도, 예외)은 하나도 바뀌면 안 된다.
 
 ## 제어 루프 대응
 
@@ -11,7 +11,7 @@ Kyle Mistele "Loop Engineering from First Principles"(AIEWF 2026)의 제어 루�
 | 목표값 | 옛 날짜 API를 쓰는 파일 0개 + 동작 테스트 PASS |
 | 센서 | `measure.py`(남은 파일 수) + `verify.py`(컴파일 + 동작 테스트 28개) |
 | 컨트롤러 | `migrate_loop.py` — 남은 파일 하나를 골라 새 세션에 지시, 결과로 반영/되돌림 결정 (AI 아님) |
-| 실행기 | Kiro CLI — 그 파일 하나만 옮긴다 |
+| 실행기 | Kiro CLI — 그 파일의 날짜 코드만 java.time으로 바꾼다 |
 | 시스템 | `src/*.java` |
 
 ## loop 1회의 규칙

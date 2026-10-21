@@ -171,7 +171,7 @@ def main():
         f'max_attempts/file={a.max_attempts}  timeout={a.timeout}s')
     log('set point: 0 files on legacy date API, behavior tests PASS')
     log('=' * 66)
-    ko('이 Outer Loop는 옛 날짜 API를 쓰는 Java 파일을 loop 한 번에 하나씩 java.time으로 옮깁니다.')
+    ko('이 Outer Loop는 옛 날짜 API를 쓰는 Java 파일의 코드를 loop 한 번에 한 파일씩 java.time으로 바꿉니다 (파일 위치는 그대로).')
     ko('목표: 옛 날짜 API를 쓰는 파일 0개 + 동작 테스트 28개 PASS. 사람은 중간에 아무것도 입력하지 않습니다.')
     if a.provider == 'mock':
         log('NOTE: mock is a scripted rehearsal, not an AI run.')
